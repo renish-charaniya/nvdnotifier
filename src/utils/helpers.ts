@@ -22,3 +22,11 @@ export async function setLastScannedDate() {
     console.error("Error writing last scanned date:", err);
   }
 }
+
+export function secondsToCron(seconds: number) {
+  if (seconds < 1 || seconds > 59) {
+    throw new Error("Invalid input. Seconds should be between 1 and 59.");
+  }
+
+  return `*/${seconds} * * * * *`;
+}
