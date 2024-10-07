@@ -4,6 +4,7 @@ import { vulnerabilityJob } from "./jobs/vulnerabilityJob";
 
 const app = express();
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // Add routes
 app.use("/api", slackRoutes);

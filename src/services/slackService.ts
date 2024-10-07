@@ -23,9 +23,11 @@ export const sendVulnerabilityMessage = async (
     const blocks: (Block | KnownBlock)[] = [
       {
         type: "section",
+        block_id: "vulnerability_description",
         text: {
           type: "mrkdwn",
           // TODO Select only english language descriptions.
+          //TODO improve description formatting
           text: `*New Vulnerability Found*\n${JSON.stringify(
             vulnerability.cve.descriptions.map(
               (desc: { lang: string; value: string }) => desc.value
@@ -34,35 +36,19 @@ export const sendVulnerabilityMessage = async (
         },
       },
       {
-        type: "input",
-        block_id: "team_members_selection",
-        element: {
-          type: "multi_static_select",
-          action_id: "select_members",
+        type: "section",
+        block_id: "list",
+        text: {
+          type: "mrkdwn",
+          text: "Pick users from the list",
+        },
+        accessory: {
+          action_id: "users",
+          type: "multi_users_select",
           placeholder: {
             type: "plain_text",
-            text: "Select team members",
+            text: "Select users",
           },
-          options: [
-            {
-              text: {
-                type: "plain_text",
-                text: "Team Member 1",
-              },
-              value: "member_1",
-            },
-            {
-              text: {
-                type: "plain_text",
-                text: "Team Member 2",
-              },
-              value: "member_2",
-            },
-          ],
-        },
-        label: {
-          type: "plain_text",
-          text: "Team Members",
         },
       },
       {
@@ -84,16 +70,17 @@ export const sendVulnerabilityMessage = async (
 
     let channelId;
     if (adminId) {
-      // Assuming adminEmail is actually a user ID
+      // Assuming adminId is actually a user ID
       channelId = await getDMChannelId(adminId);
     } else {
-      channelId = "C1234567890"; // Your fallback channel ID
+      // ! fallback channel ID
+      channelId = "C1234567890";
     }
 
     await slackClient.chat.postMessage({
       channel: adminId,
       blocks,
-      text: "New Vulnerability Found", // Fallback text for accessibility
+      text: "['MANUAL_INTERVENTION_REQUIRED'] - It's a fallback notification. New Vulnerability Found",
     });
   } catch (error) {
     console.error(
@@ -119,18 +106,12 @@ async function validateUser(userId: string) {
   }
 }
 
-// If you want to send to a channel
-const channelId = "C1234567890"; // Replace with actual channel ID
-
 // If you want to send to a user directly
 async function getDMChannelId(userId: string) {
   console.log("🚀 ~ getDMChannelId ~ userId:", userId);
   try {
     const result = await slackClient.conversations.open({ users: userId });
-    console.log(
-      "🚀 ~ getDMChannelId ~ result:",
-      JSON.stringify(result, null, 4)
-    );
+
     return (result.channel as { id: string }).id;
   } catch (error) {
     console.error("Error opening DM channel:", error);
@@ -138,35 +119,32 @@ async function getDMChannelId(userId: string) {
   }
 }
 
-async function listUsers(userId: string) {
-  try {
-    // TODO what is no teamid is provided
-    // TODO find an api to fetch teamID
-    const userList = await slackClient.users.list({ team_id: "T07QLAV0EM8" });
-    if (!userList.members?.length) {
-      throw new Error("No users found in the team.");
-    }
-    // TODO handle deleted user > isDeleted
-    const users = userList.members.map((member) => {
-      return {
-        id: member.id,
-        name: member.real_name,
-      };
-    });
-    console.log(
-      "🚀 ~ validateUser ~ userList:",
-      JSON.stringify(users, null, 4)
-    );
-    return users;
-    // if (
-    //   (userInfo.user as { deleted: boolean }).deleted ||
-    //   !(userInfo.user as { is_member: boolean }).is_member
-    // ) {
-    //   console.error(`User ${userId} not found or has left the workspace.`);
-    //   return;
-    // }
-  } catch (error) {
-    console.error(`Error getting user info for ${userId}:`, error);
-    throw error;
-  }
-}
+// async function listUsers(userId: string) {
+//   try {
+// TODO what is no teamid is provided
+// TODO find an api to fetch teamID
+//     const userList = await slackClient.users.list({ team_id: "T07QLAV0EM8" });
+//     if (!userList.members?.length) {
+//       throw new Error("No users found in the team.");
+//     }
+// TODO handle deleted user > isDeleted
+//     const users = userList.members.map((member) => {
+//       return {
+//         id: member.id,
+//         name: member.real_name,
+//       };
+//     });
+
+//     return users;
+// if (
+//   (userInfo.user as { deleted: boolean }).deleted ||
+//   !(userInfo.user as { is_member: boolean }).is_member
+// ) {
+//   console.error(`User ${userId} not found or has left the workspace.`);
+//   return;
+// }
+//   } catch (error) {
+//     console.error(`Error getting user info for ${userId}:`, error);
+//     throw error;
+//   }
+// }

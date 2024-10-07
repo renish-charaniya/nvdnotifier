@@ -1,0 +1,102 @@
+{
+  "type": "block_actions",
+  "user": {
+    "id": "U07QDN0RGPQ",
+    "username": "cureist.yhp",
+    "name": "cureist.yhp",
+    "team_id": "T07QLAV0EM8"
+  },
+  "api_app_id": "A07QHQE86SZ",
+  "token": "ukjYj9N28r0a8faLh5Qz5FG0",
+  "container": {
+    "type": "message",
+    "message_ts": "1728285341.992989",
+    "channel_id": "D07Q64GQC5V",
+    "is_ephemeral": false
+  },
+  "trigger_id": "7838498349970.7836369014722.4d7c85dad2e37b5b98acdfda6816f044",
+  "team": {
+    "id": "T07QLAV0EM8",
+    "domain": "nvdnotify"
+  },
+  "enterprise": null,
+  "is_enterprise_install": false,
+  "channel": {
+    "id": "D07Q64GQC5V",
+    "name": "directmessage"
+  },
+  "message": {
+    "user": "U07QLLJA0F4",
+    "type": "message",
+    "ts": "1728285341.992989",
+    "bot_id": "B07QZB6RXCZ",
+    "app_id": "A07QHQE86SZ",
+    "text": "New Vulnerability Found",
+    "team": "T07QLAV0EM8",
+    "blocks": [
+      {
+        "type": "section",
+        "block_id": "AoDOF",
+        "text": {
+          "type": "mrkdwn",
+          "text": "*New Vulnerability Found*\n[\"The debug command in Sendmail is enabled, allowing attackers to execute commands as root.\",\"El comando de depuración de Sendmail está activado, permitiendo a atacantes ejecutar comandos como root.\"]",
+          "verbatim": false
+        }
+      },
+      {
+        "type": "section",
+        "block_id": "list",
+        "text": {
+          "type": "mrkdwn",
+          "text": "Pick users from the list",
+          "verbatim": false
+        },
+        "accessory": {
+          "type": "multi_users_select",
+          "action_id": "users",
+          "placeholder": {
+            "type": "plain_text",
+            "text": "Select users",
+            "emoji": true
+          }
+        }
+      },
+      {
+        "type": "actions",
+        "block_id": "forward_action",
+        "elements": [
+          {
+            "type": "button",
+            "action_id": "forward_button",
+            "text": {
+              "type": "plain_text",
+              "text": "Forward",
+              "emoji": true
+            },
+            "value": "forward_vulnerability"
+          }
+        ]
+      }
+    ]
+  },
+  "state": {
+    "values": {
+      "list": {
+        "users": {
+          "type": "multi_users_select",
+          "selected_users": ["U07QDN0RGPQ"]
+        }
+      }
+    }
+  },
+  "response_url": "https://hooks.slack.com/actions/T07QLAV0EM8/7831878264886/sAVaqxgqVrB7Cg5aRuEjeyxd",
+  "actions": [
+    {
+      "type": "multi_users_select",
+      "action_id": "users",
+      "block_id": "list",
+      "selected_users": ["U07QDN0RGPQ"],
+      "action_ts": "1728285386.438330"
+    }
+  ]
+}
