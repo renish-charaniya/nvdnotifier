@@ -1,37 +1,34 @@
 import { WebClient } from "@slack/web-api";
 import { config } from "../config/config";
 import { Block, KnownBlock } from "@slack/types"; // Importing Slack types
-
+import {
+  Blocks,
+  Channel,
+  SlackInteractivePayload,
+} from "../types/slackInteractiveTypes";
 const slackClient = new WebClient(config.slackToken);
 
 export const sendVulnerabilityMessage = async (
   vulnerability: any,
   adminId: string
 ) => {
-  console.log("🚀 ~ adminEmail:", adminId);
-  // console.log("🚀 ~ vulnerability:", JSON.stringify(vulnerability, null, 4));
   await validateUser(adminId);
-  // const usersFormattedBlocks = (await listUsers(adminId)).map((user) => {
-  //   return {
-  //     text:{
-  //       type: "plain_text",
-  //       text: "Team Member 1",
-  //     }
-  //   }
-  // })
+
   try {
+    const description = "";
     const blocks: (Block | KnownBlock)[] = [
       {
         type: "section",
         block_id: "vulnerability_description",
         text: {
           type: "mrkdwn",
-          // TODO Select only english language descriptions.
-          //TODO improve description formatting
-          text: `*New Vulnerability Found*\n${JSON.stringify(
-            vulnerability.cve.descriptions.map(
-              (desc: { lang: string; value: string }) => desc.value
-            )
+          text: `:rotating_light: *New Vulnerability Found* :rotating_light:\n*CVE_ID*: ${
+            vulnerability.cve.id
+          }\n*Vulnerability*: ${vulnerability.cve.descriptions.map(
+            (desc: { lang: string; value: string }) => {
+              // !CVE API doesn't have the language filter.
+              if (desc.lang === "en") return description + desc.value;
+            }
           )}`,
         },
       },
@@ -93,9 +90,10 @@ export const sendVulnerabilityMessage = async (
 async function validateUser(userId: string) {
   try {
     const userInfo = await slackClient.users.info({ user: userId });
+
     if (
       (userInfo.user as { deleted: boolean }).deleted ||
-      !(userInfo.user as { is_member: boolean }).is_member
+      !(userInfo.user as { is_admin: boolean }).is_admin
     ) {
       console.error(`User ${userId} not found or has left the workspace.`);
       return;
@@ -106,9 +104,7 @@ async function validateUser(userId: string) {
   }
 }
 
-// If you want to send to a user directly
 async function getDMChannelId(userId: string) {
-  console.log("🚀 ~ getDMChannelId ~ userId:", userId);
   try {
     const result = await slackClient.conversations.open({ users: userId });
 
@@ -119,32 +115,138 @@ async function getDMChannelId(userId: string) {
   }
 }
 
-// async function listUsers(userId: string) {
-//   try {
-// TODO what is no teamid is provided
-// TODO find an api to fetch teamID
-//     const userList = await slackClient.users.list({ team_id: "T07QLAV0EM8" });
-//     if (!userList.members?.length) {
-//       throw new Error("No users found in the team.");
-//     }
-// TODO handle deleted user > isDeleted
-//     const users = userList.members.map((member) => {
-//       return {
-//         id: member.id,
-//         name: member.real_name,
-//       };
-//     });
+export async function handleEmptySelectionModal(
+  payload: SlackInteractivePayload
+) {
+  // Respond with a modal asking to select users
+  slackClient.views.open({
+    trigger_id: payload.trigger_id,
+    view: {
+      type: "modal",
+      title: {
+        type: "plain_text",
+        text: "Error",
+      },
+      close: {
+        type: "plain_text",
+        text: "Close",
+      },
+      blocks: [
+        {
+          type: "section",
+          text: {
+            type: "mrkdwn",
+            text: "You must select at least one user before forwarding.",
+          },
+        },
+      ],
+    },
+  });
+}
 
-//     return users;
-// if (
-//   (userInfo.user as { deleted: boolean }).deleted ||
-//   !(userInfo.user as { is_member: boolean }).is_member
-// ) {
-//   console.error(`User ${userId} not found or has left the workspace.`);
-//   return;
-// }
-//   } catch (error) {
-//     console.error(`Error getting user info for ${userId}:`, error);
-//     throw error;
-//   }
-// }
+export async function sendForwardedMessage(
+  adminId: string,
+  memberIds: string[],
+  vulnerabilityDescription: string
+) {
+  const blocks = [
+    {
+      type: "section",
+      text: {
+        type: "mrkdwn",
+        text: `*Forwarded by <@${adminId}>*\n${vulnerabilityDescription}`,
+      },
+    },
+    {
+      type: "input",
+      block_id: "remediation_description",
+      element: {
+        type: "plain_text_input",
+        action_id: "remediation_input",
+        multiline: true,
+        placeholder: {
+          type: "plain_text",
+          text: "Describe the remediation...",
+        },
+      },
+      label: {
+        type: "plain_text",
+        text: "Remediation Steps",
+      },
+    },
+    {
+      type: "actions",
+      block_id: "remediation_confirmation",
+      elements: [
+        {
+          type: "button",
+          text: {
+            type: "plain_text",
+            text: "Confirm Remediation",
+          },
+          value: "confirm_remediation",
+          action_id: "confirm_button",
+        },
+      ],
+    },
+  ];
+
+  for (const memberId of memberIds) {
+    await slackClient.chat.postMessage({
+      channel: memberId,
+      blocks,
+      text: "New Vulnerability Forwarded",
+    });
+  }
+}
+
+export async function handleConfirmRemediation(
+  payload: SlackInteractivePayload
+) {
+  const remediationDetails =
+    payload.state.values.remediation_description.remediation_input.value;
+
+  const vunerabilityDescriptionBlock = <Blocks>(
+    payload.message.blocks.find(
+      (block: { block_id: string; type: string }) => block.type === "section"
+    )
+  );
+  const extractVulnerabilityDescriptionRegex = /Vulnerability\*:(.*)/;
+  const matchVD = vunerabilityDescriptionBlock.text.text.match(
+    extractVulnerabilityDescriptionRegex
+  );
+  const extractCveIdRegex = /CVE_ID\*:(.*)/;
+  const matchCVE =
+    vunerabilityDescriptionBlock.text.text.match(extractCveIdRegex);
+  let cveId = "";
+  if (matchVD && matchCVE) {
+    vunerabilityDescriptionBlock.text.text = `✅ *This vulnerability has been handled successfully!*\nRemediation confirmed by <@${
+      payload.user.id
+    }>:\n*CVE_ID*: ${matchCVE[1].trim()}\n*Vulnerability Description*: ${matchVD[1].trim()}\n *Remediation Performed*: ${remediationDetails}`;
+    cveId = matchCVE[1].trim();
+  }
+
+  await notifyAdmin(config.adminId, payload.user.id, cveId, remediationDetails);
+
+  // Confirm remediation
+  await slackClient.chat.update({
+    channel: (payload.channel as Channel).id,
+    ts: payload.message.ts,
+    text: `✅ *This vulnerability has been handled successfully!*\nRemediation confirmed by <@${payload.user.id}>: ${remediationDetails}`,
+    blocks: [vunerabilityDescriptionBlock], // Clear interactive components
+  });
+}
+
+export async function notifyAdmin(
+  adminUserId: string,
+  respondentId: string,
+  cveId: string,
+  remediationDetails: string
+) {
+  const message = `*Responded by <@${respondentId}>*\n✅ The vulnerability you forwarded has been remediated:\n*CVE_ID*: ${cveId}\n*Remediation Steps*: ${remediationDetails}`;
+
+  await slackClient.chat.postMessage({
+    channel: adminUserId, // Send a DM to the admin
+    text: message,
+  });
+}
