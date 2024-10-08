@@ -1,5 +1,6 @@
 import express from "express";
 import slackRoutes from "./routes/slackRoutes";
+import cronRoutes from "./routes/cronRoutes";
 import connectDB from "./db/connection";
 
 const app = express();
@@ -10,6 +11,7 @@ connectDB();
 
 app.use("/api", slackRoutes);
 app.use("/", slackRoutes);
+app.use("/cron", cronRoutes);
 
 // vulnerabilityJob.start();
 
