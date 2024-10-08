@@ -1,6 +1,5 @@
 import express from "express";
 import slackRoutes from "./routes/slackRoutes";
-import { vulnerabilityJob } from "./jobs/vulnerabilityJob";
 import connectDB from "./db/connection";
 
 const app = express();
@@ -12,6 +11,6 @@ connectDB();
 app.use("/api", slackRoutes);
 app.use("/", slackRoutes);
 
-vulnerabilityJob.start();
+// vulnerabilityJob.start();
 
 export default app;
