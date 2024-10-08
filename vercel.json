@@ -18,7 +18,7 @@
   "crons": [
     {
       "path": "/src/jobs/vulnerabilityJob",
-      "schedule": "23 2 * * *"
+      "schedule": "50 2 * * *"
     }
   ],
   "buildCommand": "pnpm build"
