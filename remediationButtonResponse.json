@@ -1,0 +1,54 @@
+{
+  "type": "block_actions",
+  "user": {
+    "id": "U07QG5200RL",
+    "username": "crenish00",
+    "name": "crenish00",
+    "team_id": "T07QLAV0EM8"
+  },
+  "api_app_id": "A07QHQE86SZ",
+  "token": "ukjYj9N28r0a8faLh5Qz5FG0",
+  "container": {
+    "type": "message",
+    "message_ts": "1728292637.775199",
+    "channel_id": "D07QNLKNPTM",
+    "is_ephemeral": false
+  },
+  "trigger_id": "7832561865350.7836369014722.4b29860c5daf1a3ab1858778b1b3dc7a",
+  "team": {
+    "id": "T07QLAV0EM8",
+    "domain": "nvdnotify"
+  },
+  "enterprise": null,
+  "is_enterprise_install": false,
+  "channel": {
+    "id": "D07QNLKNPTM",
+    "name": "directmessage"
+  },
+  "message": {
+    "user": "U07QLLJA0F4",
+    "type": "message",
+    "ts": "1728292637.775199",
+    "bot_id": "B07QZB6RXCZ",
+    "app_id": "A07QHQE86SZ",
+    "text": "New Vulnerability Forwarded",
+    "team": "T07QLAV0EM8",
+    "blocks": [["Object"], ["Object"], ["Object"]]
+  },
+  "state": {
+    "values": {
+      "remediation_description": ["Object"]
+    }
+  },
+  "response_url": "https://hooks.slack.com/actions/T07QLAV0EM8/7841683758356/uNjSNNhjtuqSfwX1wNwIxTdy",
+  "actions": [
+    {
+      "action_id": "confirm_button",
+      "block_id": "remediation_confirmation",
+      "text": ["Object"],
+      "value": "confirm_remediation",
+      "type": "button",
+      "action_ts": "1728293379.863140"
+    }
+  ]
+}
