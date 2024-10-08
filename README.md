@@ -2,7 +2,8 @@
 
 Automate the detection of vulnerabilities from the [National Vulnerability Database (NVD)](https://nvd.nist.gov) and streamline communication within your IT team through Slack. This tool eliminates the need for manual vulnerability checks and forwards security patch details to co-admins for quick action.
 
-<video src="https://drive.google.com/file/d/1O4m8VCERahT0CcAy_SJPMc3btQEwnJFO/view?usp=sharing" width="320" height="240" controls></video>
+<iframe src="https://drive.google.com/file/d/1O4m8VCERahT0CcAy_SJPMc3btQEwnJFO/view?usp=sharing" width="560" height="315" frameborder="0" allowfullscree></iframe>
+
 
 ## Problem Statement
 
