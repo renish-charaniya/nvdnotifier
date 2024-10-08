@@ -2,7 +2,7 @@
 
 Automate the detection of vulnerabilities from the [National Vulnerability Database (NVD)](https://nvd.nist.gov) and streamline communication within your IT team through Slack. This tool eliminates the need for manual vulnerability checks and forwards security patch details to co-admins for quick action.
 
-<iframe src="https://drive.google.com/file/d/1O4m8VCERahT0CcAy_SJPMc3btQEwnJFO/view?usp=sharing" width="560" height="315" frameborder="0" allowfullscree></iframe>
+Demo - [NVD-Notifier](https://drive.google.com/file/d/1O4m8VCERahT0CcAy_SJPMc3btQEwnJFO/view?usp=sharing)
 
 
 ## Problem Statement
@@ -46,8 +46,8 @@ pnpm build && pnpm dev
 ### Setting up the Slack App for OAuth Tokens
 (Note: An OAuth flow can be used to simplify the process for users.)
 
-<video 
-src="https://drive.google.com/file/d/1zMUFdZlC-VaL922LOuAPB5aKTacJEITI/view?usp=sharing" width="320" height="240" controls></video>
+Video - [Onboarding & Slack setup](https://drive.google.com/file/d/1zMUFdZlC-VaL922LOuAPB5aKTacJEITI/view?usp=sharing)
+
 
 To integrate with Slack, you first need to create a Slack Bot. Follow these steps:
 
