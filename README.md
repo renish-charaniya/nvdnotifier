@@ -53,7 +53,7 @@ To integrate with Slack, you first need to create a Slack Bot. Follow these step
 
 1. Go to the Slack API Apps page.
 2. Click "Create App" and select "Create App from Manifest."
-3. Paste the following manifest file:
+3. Paste the following manifest file :
 ```json
 {
     "display_information": {
