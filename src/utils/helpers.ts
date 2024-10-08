@@ -8,11 +8,11 @@ export const formatVulnerabilityMessage = (vulnerability: any): string => {
 export async function setLastScannedDate() {
   try {
     const { last_scanned_date } = JSON.parse(
-      fs.readFileSync("./cronConfigs.json", { encoding: "utf-8" })
+      fs.readFileSync("./public/cronConfigs.json", { encoding: "utf-8" })
     );
     if (!last_scanned_date || last_scanned_date == "") {
       fs.writeFileSync(
-        "./cronConfigs.json",
+        "./public/cronConfigs.json",
         JSON.stringify({
           last_scanned_date: config.lastScannedDate,
         })

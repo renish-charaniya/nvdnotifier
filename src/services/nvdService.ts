@@ -1,12 +1,15 @@
 import axios from "axios";
 import { config } from "../config/config";
 import { addSeconds } from "date-fns";
-import fs from "node:fs/promises";
+import { promises as fs } from "fs";
+import path from "path";
+
+const configPath = path.join(process.cwd(), "public", "cronConfigs.json");
 
 export const fetchVulnerabilities = async () => {
   try {
     let { last_scanned_date } = JSON.parse(
-      await fs.readFile("./cronConfigs.json", { encoding: "utf-8" })
+      await fs.readFile(configPath, "utf8")
     );
 
     const nvdCveUrl = new URL(config.nvdApiUrl);
@@ -23,9 +26,9 @@ export const fetchVulnerabilities = async () => {
     const { data } = await axios.get(nvdCveUrl.toString());
 
     await fs.writeFile(
-      "./cronConfigs.json",
+      configPath,
       JSON.stringify({ last_scanned_date: addedInterval }),
-      { encoding: "utf-8" }
+      "utf8"
     );
     return data.vulnerabilities;
   } catch (error) {
