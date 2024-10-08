@@ -8,6 +8,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Add routes
 app.use("/api", slackRoutes);
+app.use("/", slackRoutes);
 
 // Start the cron job
 vulnerabilityJob.start();
