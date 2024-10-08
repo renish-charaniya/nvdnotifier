@@ -43,8 +43,8 @@ export const fetchVulnerabilities = async () => {
     );
 
     return data.vulnerabilities;
-  } catch (error) {
-    console.error("Error fetching vulnerabilities from NVD:", error);
+  } catch (err) {
+    console.error("Error fetching vulnerabilities from NVD:", err);
     return [];
   }
 };
