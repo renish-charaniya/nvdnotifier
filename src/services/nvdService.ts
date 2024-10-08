@@ -3,14 +3,21 @@ import { config } from "../config/config";
 import { addSeconds } from "date-fns";
 import { promises as fs } from "fs";
 import path from "path";
+import ScanStatus from "../models/scanStatus.model";
+import { ScanStatusType } from "../types/scanStatus.type";
 
 const configPath = path.join(process.cwd(), "public", "cronConfigs.json");
 
 export const fetchVulnerabilities = async () => {
   try {
-    let { last_scanned_date } = JSON.parse(
-      await fs.readFile(configPath, "utf8")
-    );
+    const cron_id = "cron_job";
+    const cronDate: ScanStatusType | null = await ScanStatus.findOne({
+      cron_id: cron_id,
+    });
+    let last_scanned_date = cronDate?.last_scanned_date;
+    if (!last_scanned_date) {
+      last_scanned_date = config.lastScannedDate;
+    }
 
     const nvdCveUrl = new URL(config.nvdApiUrl);
     nvdCveUrl.searchParams.append("resultsPerPage", "10");
@@ -25,11 +32,16 @@ export const fetchVulnerabilities = async () => {
 
     const { data } = await axios.get(nvdCveUrl.toString());
 
-    await fs.writeFile(
-      configPath,
-      JSON.stringify({ last_scanned_date: addedInterval }),
-      "utf8"
+    await ScanStatus.updateOne(
+      { cron_id: cron_id },
+      {
+        last_scanned_date: addedInterval,
+      },
+      {
+        upsert: true,
+      }
     );
+
     return data.vulnerabilities;
   } catch (error) {
     console.error("Error fetching vulnerabilities from NVD:", error);
