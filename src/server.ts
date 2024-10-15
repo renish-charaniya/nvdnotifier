@@ -1,5 +1,4 @@
 import app from "./app";
-import { setLastScannedDate } from "./utils/helpers";
 
 const PORT = process.env.PORT || 3000;
 

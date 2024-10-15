@@ -1,38 +1,38 @@
 {
   "type": "block_actions",
   "user": {
-    "id": "U07QDN0RGPQ",
-    "username": "cureist.yhp",
-    "name": "cureist.yhp",
-    "team_id": "T07QLAV0EM8"
+    "id": "userid",
+    "username": "email",
+    "name": "email",
+    "team_id": "team_id"
   },
-  "api_app_id": "A07QHQE86SZ",
-  "token": "ukjYj9N28r0a8faLh5Qz5FG0",
+  "api_app_id": "api_app_id",
+  "token": "token",
   "container": {
     "type": "message",
-    "message_ts": "1728285341.992989",
-    "channel_id": "D07Q64GQC5V",
+    "message_ts": "message_ts",
+    "channel_id": "channel_id",
     "is_ephemeral": false
   },
-  "trigger_id": "7838498349970.7836369014722.4d7c85dad2e37b5b98acdfda6816f044",
+  "trigger_id": "trigger_id",
   "team": {
-    "id": "T07QLAV0EM8",
-    "domain": "nvdnotify"
+    "id": "team_id",
+    "domain": "workspace_name"
   },
   "enterprise": null,
   "is_enterprise_install": false,
   "channel": {
-    "id": "D07Q64GQC5V",
+    "id": "channel_id",
     "name": "directmessage"
   },
   "message": {
-    "user": "U07QLLJA0F4",
+    "user": "userid",
     "type": "message",
     "ts": "1728285341.992989",
-    "bot_id": "B07QZB6RXCZ",
-    "app_id": "A07QHQE86SZ",
+    "bot_id": "bot_id",
+    "app_id": "app_id",
     "text": "New Vulnerability Found",
-    "team": "T07QLAV0EM8",
+    "team": "team_id",
     "blocks": [
       {
         "type": "section",
@@ -84,18 +84,18 @@
       "list": {
         "users": {
           "type": "multi_users_select",
-          "selected_users": ["U07QDN0RGPQ"]
+          "selected_users": ["USER_ID"]
         }
       }
     }
   },
-  "response_url": "https://hooks.slack.com/actions/T07QLAV0EM8/7831878264886/sAVaqxgqVrB7Cg5aRuEjeyxd",
+  "response_url": "https://hooks.slack.com/actions/TEAM_ID/7831878264886/slug",
   "actions": [
     {
       "type": "multi_users_select",
       "action_id": "users",
       "block_id": "list",
-      "selected_users": ["U07QDN0RGPQ"],
+      "selected_users": ["user_id"],
       "action_ts": "1728285386.438330"
     }
   ]
