@@ -1,0 +1,14 @@
+{
+  "ok": true,
+  "app_id": "app_id",
+  "authed_user": { "id": "id" },
+  "scope": "",
+  "token_type": "bot",
+  "access_token": "token",
+  "bot_user_id": "bot_user_id",
+  "refresh_token": "refresh_token",
+  "expires_in": 42446,
+  "team": { "id": "team_id", "name": "team_name" },
+  "enterprise": null,
+  "is_enterprise_install": false
+}
