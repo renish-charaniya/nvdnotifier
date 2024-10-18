@@ -8,4 +8,7 @@ export const config = {
   lastScannedDate: process.env.LAST_SCANNED_DATE || "",
   scanInterval: parseInt(<string>process.env.SCAN_INTERVAL) || 10,
   nvdApiUrl: "https://services.nvd.nist.gov/rest/json/cves/2.0",
+  mongodbUri:
+    process.env.DATABASE_URL || "mongodb://localhost:27017/nvdnotifier",
+  dbName: process.env.DB_NAME,
 };

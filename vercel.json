@@ -15,5 +15,11 @@
       "dest": "src/server.ts"
     }
   ],
+  "crons": [
+    {
+      "path": "/src/jobs/vulnerabilityJob",
+      "schedule": "50 2 * * *"
+    }
+  ],
   "buildCommand": "pnpm build"
 }
