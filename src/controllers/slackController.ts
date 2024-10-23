@@ -113,10 +113,8 @@ export class SlackController {
       if (!tokenSaved) {
         return res.status(500).send({ message: "Error saving Slack token." });
       }
-
-      res.status(200).send({
-        team_name: (<SlackTokenResponseType>slackTokenData).team.name,
-      });
+      const teamName = (<SlackTokenResponseType>slackTokenData).team.name;
+      res.redirect(`/?team=${teamName}&status=success`);
     } catch (error) {
       console.error("Error during Slack OAuth callback", error);
       res.status(500).send({ error: "Failed to handle OAuth callback" });

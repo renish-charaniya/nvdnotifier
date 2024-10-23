@@ -3,26 +3,30 @@ import { Request, Response, Router } from "express";
 import connectDB from "../db/connection";
 
 import { SlackController } from "../controllers/slackController";
+import path from "node:path";
 
 const router = Router();
 const slackController = new SlackController();
 
-router.post(
-  "/slack/actions",
-  slackController.handleSlackInteraction.bind(slackController)
-);
+router.get("/", (_req: Request, res: Response) => {
+  res.sendFile(path.join(__dirname, "../../public/landingpage.html"));
+});
+
 router.get(
   "/slack/authorize",
   slackController.handleAuthorize.bind(slackController)
 );
+
 router.get(
   "/slack/callback",
   slackController.handleAuthCallback.bind(slackController)
 );
 
-router.get("/", (_req: Request, res: Response) => {
-  res.sendStatus(200);
-});
+router.post(
+  "/slack/actions",
+  slackController.handleSlackInteraction.bind(slackController)
+);
+
 router.get("/dbcheck", (_req: Request, res: Response) => {
   try {
     connectDB();
