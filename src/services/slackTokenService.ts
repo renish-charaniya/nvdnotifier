@@ -1,8 +1,7 @@
-import SlackToken from "../models/slackToken.model"; // Import your MongoDB model
-import { Team } from "../types/oauthToken.type";
+import SlackToken from "../models/slackToken.model";
 
 export class SlackTokenService {
-  // Method to retrieve the Slack token based on app ID or any identifier
+  // Method to retrieve the Slack token based on team ID or any identifier
   public async getSlackToken(
     teamId: string,
     teamName?: string
@@ -20,7 +19,6 @@ export class SlackTokenService {
 
       if (!tokenRecord) {
         console.error(`Slack token for team ID ${teamId} not found.`);
-        // TODO need to refactor
         return null;
       }
 

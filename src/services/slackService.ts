@@ -1,6 +1,6 @@
 import { WebClient, ChatPostMessageArguments } from "@slack/web-api";
 import { inject, singleton } from "tsyringe";
-import { Block, KnownBlock } from "@slack/types"; // Importing Slack types
+import { Block, KnownBlock } from "@slack/types";
 
 import {
   Blocks,
@@ -17,14 +17,14 @@ export class SlackService {
 
   constructor(slackToken: string) {
     this.slackClient = new WebClient(slackToken);
-    this.slackTokenService = new SlackTokenService(); // Initialize SlackTokenService
+    this.slackTokenService = new SlackTokenService();
   }
 
   // Check if access token is valid by calling Slack API using WebClient
   private async isAccessTokenValid(accessToken: string): Promise<boolean> {
     try {
       const response = await axios.post(
-        "https://slack.com/api/auth.test",
+        config.slackTokenValidityUrl,
         {},
         {
           headers: {
@@ -46,18 +46,14 @@ export class SlackService {
   // Refresh the access token if expired
   private async refreshAccessToken(refreshToken: string): Promise<void> {
     try {
-      const response = await axios.post(
-        "https://slack.com/api/oauth.v2.access",
-        null,
-        {
-          params: {
-            grant_type: "refresh_token",
-            client_id: config.SLACK_AUTH_PARAMS.CLIENT_ID_VALUE,
-            client_secret: config.SLACK_AUTH_PARAMS.CLIENT_SECRET_VALUE,
-            refresh_token: refreshToken,
-          },
-        }
-      );
+      const response = await axios.post(config.slackTokenUrl, null, {
+        params: {
+          grant_type: "refresh_token",
+          client_id: config.SLACK_AUTH_PARAMS.CLIENT_ID_VALUE,
+          client_secret: config.SLACK_AUTH_PARAMS.CLIENT_SECRET_VALUE,
+          refresh_token: refreshToken,
+        },
+      });
 
       if (response.data.ok) {
         const teamId = response.data.team.id;
@@ -96,7 +92,7 @@ export class SlackService {
 
   // Add a public wrapper to expose the validateUser method
   public async isValidAdmin(adminId: string): Promise<boolean> {
-    return this.validateUser(adminId); // Call the private method internally
+    return this.validateUser(adminId);
   }
 
   // Send a vulnerability notification to an admin
@@ -133,7 +129,8 @@ export class SlackService {
 
       if (user.deleted || !user.is_admin || !user.is_owner) {
         // throw new Error(`User ${adminId} is not an active admin or owner.`);
-        return false;
+        // return false;
+        console.log(">>>>>>>>>>>>> NOT AN ADMIN <<<<<<<<<<<");
       }
       return true;
     } catch (error) {

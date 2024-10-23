@@ -23,6 +23,7 @@ export const config = {
     ).toString()}api/slack/callback`,
   },
   slackTokenUrl: "https://slack.com/api/oauth.v2.access",
+  slackTokenValidityUrl: "https://slack.com/api/auth.test",
   mongodbUri:
     process.env.DATABASE_URL || "mongodb://localhost:27017/nvdnotifier",
   dbName: process.env.DB_NAME,
