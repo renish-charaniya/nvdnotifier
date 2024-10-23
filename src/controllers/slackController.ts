@@ -2,30 +2,30 @@ import { Request, Response } from "express";
 import axios from "axios";
 import { config } from "../config/config";
 import SlackToken from "../models/slackToken.model";
-import { SlackService } from "../services/slackService"; // Import SlackService
+import { SlackService } from "../services/slackService";
 import {
-  ErrorResponse,
   SlackTokenErrorResponseType,
   SlackTokenResponseType,
 } from "../types/oauthToken.type";
-import { SlackTokenService } from "../services/slackTokenService"; // Import the new token service
+import { SlackTokenService } from "../services/slackTokenService";
 
 export class SlackController {
   private slackTokenService: SlackTokenService;
   constructor() {
-    this.slackTokenService = new SlackTokenService(); // Initialize SlackTokenService
+    this.slackTokenService = new SlackTokenService();
   }
 
   // Handle incoming Slack interactions
   async handleSlackInteraction(req: Request, res: Response) {
     try {
       const payload = JSON.parse(req.body.payload);
-      const slackToken = await this.slackTokenService.getSlackToken(
-        payload.team.id
-      );
+      const teamId = payload.team.id;
+      const slackToken = await this.slackTokenService.getSlackToken(teamId);
 
       if (!slackToken) {
-        return;
+        return res.status(404).send({
+          message: `No record found for the provided team ID -> ${teamId}.`,
+        });
       }
       const slackService = new SlackService(slackToken?.accessToken);
       await slackService.authenticate(
@@ -173,8 +173,6 @@ export class SlackController {
     }
   }
 
-  // // Fetch Slack token for a given team
-
   // Exchange code for Slack token
   private async exchangeCodeForToken(
     code: string
@@ -214,7 +212,7 @@ export class SlackController {
     );
   }
 
-  // Handle case where no users are selected in the modal
+  // Handle case where no users are selected in the slack modal
   private async showEmptySelectionModal(
     slackService: SlackService,
     payload: any
