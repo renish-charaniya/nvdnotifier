@@ -1,0 +1,54 @@
+{
+  "type": "block_actions",
+  "user": {
+    "id": "user_id",
+    "username": "username",
+    "name": "name",
+    "team_id": "team_id"
+  },
+  "api_app_id": "app_id",
+  "token": "token",
+  "container": {
+    "type": "message",
+    "message_ts": "message",
+    "channel_id": "channel_id",
+    "is_ephemeral": false
+  },
+  "trigger_id": "trigger_id",
+  "team": {
+    "id": "team_id",
+    "domain": "workspace_name"
+  },
+  "enterprise": null,
+  "is_enterprise_install": false,
+  "channel": {
+    "id": "channel_id",
+    "name": "directmessage"
+  },
+  "message": {
+    "user": "user_id",
+    "type": "message",
+    "ts": "1728292637.775199",
+    "bot_id": "bot_id",
+    "app_id": "app_id",
+    "text": "New Vulnerability Forwarded",
+    "team": "team_id",
+    "blocks": [["Object"], ["Object"], ["Object"]]
+  },
+  "state": {
+    "values": {
+      "remediation_description": ["Object"]
+    }
+  },
+  "response_url": "https://hooks.slack.com/actions/<WORKSPACE_ID>/7841683758356/slug",
+  "actions": [
+    {
+      "action_id": "confirm_button",
+      "block_id": "remediation_confirmation",
+      "text": ["Object"],
+      "value": "confirm_remediation",
+      "type": "button",
+      "action_ts": "1728293379.863140"
+    }
+  ]
+}

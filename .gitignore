@@ -1,0 +1,53 @@
+# Node.js specific
+node_modules/
+pnpm-debug.log*
+package-lock.json
+.pnpm-debug.log
+.pnpm-store/
+
+# TypeScript specific
+*.tsbuildinfo
+dist/
+build/
+out/
+
+# Logs
+logs/
+*.log
+logs/*.log
+pids/
+*.pid
+*.pid.lock
+
+# Testing
+/coverage
+/nyc_output
+/.nyc_output
+/coverage/
+lcov-report/
+
+# Environment files
+.env
+.env.local
+.env.test
+.env.*.local
+
+# Optional npm cache directory
+.npm
+
+# IDEs and editors
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Miscellaneous
+.DS_Store
+Thumbs.db
+
+# Ignore node_modules in Docker builds (if using Docker)
+docker-compose.override.yml
+docker-compose.prod.yml
+.dockerignore

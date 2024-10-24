@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>NVD Slack Integration</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow: hidden;
+        }
+
+        /* 3D Spaghetti Shower animation */
+        .spaghetti-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            perspective: 1000px;
+            z-index: 50;
+        }
+
+        .spaghetti {
+            position: absolute;
+            width: 2px;
+            height: 40px;
+            background: linear-gradient(45deg, #fca5a5, #f87171);
+            border-radius: 1px;
+            transform-style: preserve-3d;
+            animation: spaghetti-fall 2s linear infinite;
+        }
+
+        @keyframes spaghetti-fall {
+            0% {
+                transform: translateY(-100vh) rotateX(0deg) rotateY(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotateX(360deg) rotateY(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Thunder animation */
+        .thunder {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            animation: flash-thunder 0.2s infinite;
+            z-index: 50;
+            pointer-events: none;
+        }
+
+        @keyframes flash-thunder {
+            0%, 100% {
+                background-color: rgba(255, 255, 255, 0.1);
+            }
+            50% {
+                background-color: rgba(255, 255, 255, 0.9);
+            }
+        }
+
+        /* Modal content adjustments */
+        .modal {
+            position: relative;
+            z-index: 100;
+        }
+
+        /* Button animation */
+        .bulge {
+            animation: bulge 0.8s ease-in-out infinite;
+        }
+
+        @keyframes bulge {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const teamName = urlParams.get('team');
+            const status = urlParams.get('status');
+            const button = document.getElementById('connectButton');
+
+            if (status === 'success') {
+                button.textContent = `Connected to ${teamName}`;
+                button.classList.replace('bg-gradient-to-r', 'bg-green-500');
+                button.classList.replace('bulge', 'shadow-none');
+                button.href = "#";  // Disable the OAuth link
+
+                // Trigger Spaghetti Shower
+                triggerSpaghettiShower();
+
+            } else if (status === 'failure') {
+                // Trigger Thunder Effect
+                triggerThunder();
+            }
+        });
+
+        function triggerSpaghettiShower() {
+            const container = document.createElement('div');
+            container.classList.add('spaghetti-container');
+            document.body.appendChild(container);
+
+            for (let i = 0; i < 100; i++) {
+                createSpaghetti(container);
+            }
+
+            // Continue creating spaghetti for 3 seconds
+            const interval = setInterval(() => {
+                createSpaghetti(container);
+            }, 50);
+
+            setTimeout(() => {
+                clearInterval(interval);
+                setTimeout(() => {
+                    container.remove();
+                }, 2000);
+            }, 3000);
+        }
+
+        function createSpaghetti(container) {
+            const spaghetti = document.createElement('div');
+            spaghetti.classList.add('spaghetti');
+            spaghetti.style.left = `${Math.random() * 100}%`;
+            spaghetti.style.animationDelay = `${Math.random() * 2}s`;
+            spaghetti.style.transform = `rotateX(${Math.random() * 360}deg) rotateY(${Math.random() * 360}deg)`;
+            container.appendChild(spaghetti);
+
+            setTimeout(() => {
+                spaghetti.remove();
+            }, 2000);
+        }
+
+        function triggerThunder() {
+            const thunder = document.createElement('div');
+            thunder.classList.add('thunder');
+            document.body.appendChild(thunder);
+
+            setTimeout(() => {
+                thunder.remove();
+            }, 1000);
+        }
+    </script>
+</head>
+<body class="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-600 to-teal-400 relative overflow-hidden">
+
+    <!-- Main container (Modal) -->
+    <div class="modal text-center max-w-2xl bg-white rounded-lg shadow-2xl p-10 space-y-8 transform transition duration-500 hover:scale-105 hover:shadow-3xl relative">
+
+        <!-- Heading -->
+        <h1 class="text-4xl font-extrabold text-gray-800 tracking-tight leading-tight">
+            Automate Vulnerability Detection with <span class="text-blue-600">Slack</span>
+        </h1>
+
+        <!-- Subheading -->
+        <p class="text-lg text-gray-600 leading-relaxed">
+            Automate the detection of vulnerabilities from the <a href="https://nvd.nist.gov/" class="text-blue-600" target="_blank" rel="noopener noreferrer">National Vulnerability Database (NVD)</a> and streamline communication within your IT team through Slack. This tool eliminates the need for manual vulnerability checks and forwards security patch details to co-admins for quick action.
+        </p>
+
+        <!-- Eye-catching Button -->
+        <a id="connectButton" href="/api/slack/authorize" class="inline-block bg-gradient-to-r from-blue-500 via-teal-400 to-green-500 text-white text-xl font-semibold py-4 px-10 rounded-full shadow-lg bulge transform transition duration-300 ease-in-out relative z-20">
+            Connect NVD with your Slack
+        </a>
+
+        <!-- Optional Decorative Line -->
+        <div class="w-full border-t border-gray-200 mt-8"></div>
+
+        <!-- Additional Information (Optional) -->
+        <p class="text-gray-500 italic">
+            Stay ahead of vulnerabilities and enhance your security workflow!
+        </p>
+
+    </div>
+
+</body>
+</html>
