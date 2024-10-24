@@ -71,15 +71,15 @@ To integrate with Slack, you first need to create a Slack Bot. Follow these step
         }
     },
     "oauth_config": {
+        "redirect_urls": [
+            "https://<DOMAIN_NAME_OR_NGROK_URL>/api/slack/callback",
+        ],
         "scopes": {
             "bot": [
-                "channels:write.invites",
                 "chat:write",
-                "chat:write.public",
+                "users:read",
                 "im:write",
-                "mpim:write",
-                "usergroups:write",
-                "users:read"
+                "mpim:write"
             ]
         }
     },
@@ -100,10 +100,14 @@ To integrate with Slack, you first need to create a Slack Bot. Follow these step
 
 ### Example .env
 ```json
-SLACK_TOKEN="your_slack_bot_token"
-ADMIN_ID="slack_admin_user_id"
-LAST_SCANNED_DATE="2024-10-07T12:08:00.973Z"
+CLIENT_ID=<SLACK_OAUTH_APP_CLIENT_ID>
+CLIENT_SECRET=<SLACK_OAUTH_APP_CLIENT_SECRET>
+REDIRECT_BASE_URI=<REDIRECT_URL_YOUR_DOMAIN_NAME>
 SCAN_INTERVAL=30// In seconds
+LAST_SCANNED_DATE="2024-10-07T12:08:00.973Z"
+DATABASE_URL="mongodb+srv://<USERNAME>:<PASSWORD>@xyz-cluster.wsq1q.mongodb.net/?retryWrites=true&w=majority&appName=xyz-cluster"
+DB_NAME=testnvdnotifier
+
 ```
 
 
