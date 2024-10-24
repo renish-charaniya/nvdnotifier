@@ -110,6 +110,12 @@ DB_NAME=testnvdnotifier
 
 ```
 
+### Future Enhancements 🗺️🔭
+1. Implement a secure way to store & use Oauth tokens.
+2. Improve bot capabilities for more admin actions.
+3. Figureout more ways to integrate NVD-notifier with other incident management tools like PagerDuty,Google Chat, Skype etc.
+4. Enhance UI/UX.
+
 
 ## Contributing
 
