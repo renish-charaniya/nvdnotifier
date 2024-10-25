@@ -28,6 +28,11 @@ export const fetchVulnerabilities = async () => {
       config.scanInterval
     ).toISOString();
 
+    console.log("SCANNED -> ", {
+      lsd: last_scanned_date,
+      addedInterval: addedInterval,
+    });
+
     nvdCveUrl.searchParams.append("lastModEndDate", `${addedInterval}`);
 
     const { data } = await axios.get(nvdCveUrl.toString());
