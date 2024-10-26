@@ -1,4 +1,4 @@
-# NVD Notifier
+# NVD Notifier [![Better Stack Badge](https://uptime.betterstack.com/status-badges/v1/monitor/1lij4.svg)](https://uptime.betterstack.com/?utm_source=status_badge)
 
 Automate the detection of vulnerabilities from the [National Vulnerability Database (NVD)](https://nvd.nist.gov) and streamline communication within your IT team through Slack. This tool eliminates the need for manual vulnerability checks and forwards security patch details to co-admins for quick action.
 
