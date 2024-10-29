@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import { config } from "../config/config";
 
-const connectDB = async () => {
+export const connectDB = async () => {
   const MONGO_URI = config.mongodbUri;
   try {
     await mongoose.connect(MONGO_URI, {
@@ -14,4 +14,17 @@ const connectDB = async () => {
   }
 };
 
-export default connectDB;
+export const disconnectDB = async () => {
+  try {
+    await mongoose.disconnect();
+    console.log("DISCONNECTED");
+  } catch (err) {
+    console.error("Disconnect failed:", err);
+    process.exit(1);
+  }
+};
+
+module.exports = {
+  connectDB,
+  disconnectDB,
+};

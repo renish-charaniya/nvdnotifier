@@ -1,6 +1,6 @@
 import { Request, Response, Router } from "express";
 
-import connectDB from "../db/connection";
+import { connectDB } from "../db/connection";
 
 import { SlackController } from "../controllers/slackController";
 import path from "node:path";

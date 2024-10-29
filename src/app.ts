@@ -2,7 +2,7 @@ import "reflect-metadata";
 import express from "express";
 import slackRoutes from "./routes/slackRoutes";
 import cronRoutes from "./routes/cronRoutes";
-import connectDB from "./db/connection";
+import { connectDB } from "./db/connection";
 
 const app = express();
 app.use(express.json());
