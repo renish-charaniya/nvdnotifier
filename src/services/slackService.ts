@@ -73,7 +73,7 @@ export class SlackService {
         throw new Error("Failed to refresh access token");
       }
     } catch (error) {
-      console.error("Error refreshing access token:", (error as Error).message);
+      console.error("Error refreshing access token:", error);
       throw error;
     }
   }

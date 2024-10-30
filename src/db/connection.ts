@@ -12,6 +12,7 @@ export const connectDB = async () => {
   try {
     await mongoose.connect(MONGO_URI, {
       dbName: config.dbName,
+      minPoolSize: 5,
     });
     isConnected = true;
     console.log("MongoDB connected successfully");

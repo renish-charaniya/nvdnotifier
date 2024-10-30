@@ -110,6 +110,7 @@ export class SlackController {
           .send({ message: "Forbidden: Admin access required" });
       }
 
+      await connectDB();
       const tokenSaved = await this.saveSlackToken(slackTokenData);
 
       if (!tokenSaved) {
@@ -203,10 +204,6 @@ export class SlackController {
 
   // Save the Slack token to the database
   private async saveSlackToken(slackTokenData: any) {
-    console.log(
-      "🚀 ~ SlackController ~ saveSlackToken ~ slackTokenData:",
-      JSON.stringify(slackTokenData, null, 4)
-    );
     delete slackTokenData["_id"]; // Remove _id if present
 
     return await SlackToken.updateOne(
