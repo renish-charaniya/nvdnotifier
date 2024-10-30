@@ -111,7 +111,7 @@ export class SlackService {
     const message: ChatPostMessageArguments = {
       channel: channelId || "C1234567890", // Fallback channel if no adminId
       blocks,
-      text: "New Vulnerability Found - Manual intervention required",
+      text: `:rotating_light: *CVE_ID*: ${vulnerability.cve.id} :rotating_light:`,
     };
 
     await this.slackClient.chat.postMessage(message);
