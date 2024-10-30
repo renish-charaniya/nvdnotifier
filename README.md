@@ -115,6 +115,7 @@ DB_NAME=testnvdnotifier
 2. Improve bot capabilities for more admin actions.
 3. Figureout more ways to integrate NVD-notifier with other incident management tools like PagerDuty,Google Chat, Skype etc.
 4. Enhance UI/UX.
+5. Create a Ai automation that reads the vulnerability that is detected & give broader view to admin about what other people on Reddit,X etc. are thinking about this drift.
 
 
 ## Contributing
