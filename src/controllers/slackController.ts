@@ -8,6 +8,7 @@ import {
   SlackTokenResponseType,
 } from "../types/oauthToken.type";
 import { SlackTokenService } from "../services/slackTokenService";
+import { connectDB } from "../db/connection";
 
 export class SlackController {
   private slackTokenService: SlackTokenService;
@@ -20,6 +21,7 @@ export class SlackController {
     try {
       const payload = JSON.parse(req.body.payload);
       const teamId = payload.team.id;
+      await connectDB();
       const slackToken = await this.slackTokenService.getSlackToken(teamId);
 
       if (!slackToken) {
@@ -201,6 +203,10 @@ export class SlackController {
 
   // Save the Slack token to the database
   private async saveSlackToken(slackTokenData: any) {
+    console.log(
+      "🚀 ~ SlackController ~ saveSlackToken ~ slackTokenData:",
+      JSON.stringify(slackTokenData, null, 4)
+    );
     delete slackTokenData["_id"]; // Remove _id if present
 
     return await SlackToken.updateOne(
