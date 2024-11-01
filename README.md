@@ -111,11 +111,11 @@ DB_NAME=testnvdnotifier
 ```
 
 ### Future Enhancements 🗺️🔭
-1. Implement a secure way to store & use Oauth tokens.
-2. Improve bot capabilities for more admin actions.
-3. Figureout more ways to integrate NVD-notifier with other incident management tools like PagerDuty,Google Chat, Skype etc.
-4. Enhance UI/UX.
-5. Create a Ai automation that reads the vulnerability that is detected & give broader view to admin about what other people on Reddit,X etc. are thinking about this drift.
+- [ ] Implement a secure way to store & use Oauth tokens.
+- [ ] Improve bot capabilities for more admin actions.
+- [ ] Figureout more ways to integrate NVD-notifier with other incident management tools like PagerDuty,Google Chat, Skype etc.
+- [ ] Enhance UI/UX.
+- [ ] Create a AI automation that reads the vulnerability that is detected & give broader view to admin about what other people on Reddit,X etc. are thinking about this drift.
 
 
 ## Contributing
