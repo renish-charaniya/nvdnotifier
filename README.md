@@ -111,12 +111,23 @@ DB_NAME=testnvdnotifier
 ```
 
 ### Future Enhancements 🗺️🔭
-- [ ] Implement a secure way to store & use Oauth tokens.
-- [ ] Improve bot capabilities for more admin actions.
-- [ ] Figureout more ways to integrate NVD-notifier with other incident management tools like PagerDuty,Google Chat, Skype etc.
-- [ ] Enhance UI/UX.
-- [ ] Create a AI automation that reads the vulnerability that is detected & give broader view to admin about what other people on Reddit,X etc. are thinking about this drift.
+- [ ] Secure OAuth Token Storage 🔐
+Implement a secure method to store and manage OAuth tokens for enhanced data protection.
 
+- [ ] Scalable Notification Queue 🚀
+Introduce a queue (Bull, RabbitMQ, SQS) for detected vulnerabilities, with a dedicated Job Worker to fetch from the queue and send Slack notifications—aiming to improve stability and scalability of the NVD-notifier.
+
+- [ ] Expanded Bot Capabilities 🤖
+Enable additional admin actions to increase bot functionality and flexibility.
+
+- [ ] Broader Incident Management Integration 🔗
+Explore integrations with more incident management tools like PagerDuty, Google Chat, Skype, and others.
+
+- [ ] UI/UX Enhancements 🎨
+Improve the user interface and experience for more intuitive and seamless interactions.
+
+- [ ] AI-Driven Insights 🧠
+Develop AI automation that analyzes detected vulnerabilities and provides admins with insights on discussions from platforms like Reddit and X, offering a broader perspective on emerging threats.
 
 ## Contributing
 
