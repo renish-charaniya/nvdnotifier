@@ -4,6 +4,7 @@ import { connectDB } from "../db/connection";
 
 import { SlackController } from "../controllers/slackController";
 import path from "node:path";
+import { authMiddleware } from "../middlewares/auth.middleware";
 
 const router = Router();
 const slackController = new SlackController();
@@ -27,7 +28,7 @@ router.post(
   slackController.handleSlackInteraction.bind(slackController)
 );
 
-router.get("/dbcheck", (_req: Request, res: Response) => {
+router.get("/dbcheck", authMiddleware, (_req: Request, res: Response) => {
   try {
     connectDB();
     res.sendStatus(200);

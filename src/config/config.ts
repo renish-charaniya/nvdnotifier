@@ -2,6 +2,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 export const config = {
+  AUTH_TOKEN: process.env.AUTH_TOKEN,
   slackToken: process.env.SLACK_TOKEN || "",
   // adminEmail: process.env.ADMIN_EMAIL || "",
   adminId: process.env.ADMIN_ID || "",
