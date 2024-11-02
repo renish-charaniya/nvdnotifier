@@ -111,23 +111,23 @@ DB_NAME=testnvdnotifier
 ```
 
 ### Future Enhancements 🗺️🔭
-- [ ] Secure OAuth Token Storage 🔐
-Implement a secure method to store and manage OAuth tokens for enhanced data protection.
+- [ ] **Secure OAuth Token Storage** 🔐
+_Implement a secure method to store and manage OAuth tokens for enhanced data protection._
 
-- [ ] Scalable Notification Queue 🚀
-Introduce a queue (Bull, RabbitMQ, SQS) for detected vulnerabilities, with a dedicated Job Worker to fetch from the queue and send Slack notifications—aiming to improve stability and scalability of the NVD-notifier.
+- [ ] **Scalable Notification Queue** 🚀
+_Introduce a queue (Bull, RabbitMQ, SQS) for detected vulnerabilities, with a dedicated Job Worker to fetch from the queue and send Slack notifications aiming to improve stability and scalability of the NVD-notifier._
 
-- [ ] Expanded Bot Capabilities 🤖
-Enable additional admin actions to increase bot functionality and flexibility.
+- [ ] **Expanded Bot Capabilities** 🤖
+_Enable additional admin actions to increase bot functionality and flexibility._
 
-- [ ] Broader Incident Management Integration 🔗
-Explore integrations with more incident management tools like PagerDuty, Google Chat, Skype, and others.
+- [ ] **Broader Incident Management Integration** 🔗
+_Explore integrations with more incident management tools like PagerDuty, Google Chat, Skype, and others._
 
-- [ ] UI/UX Enhancements 🎨
-Improve the user interface and experience for more intuitive and seamless interactions.
+- [ ] **UI/UX Enhancements** 🎨
+_Improve the user interface and experience for more intuitive and seamless interactions._
 
-- [ ] AI-Driven Insights 🧠
-Develop AI automation that analyzes detected vulnerabilities and provides admins with insights on discussions from platforms like Reddit and X, offering a broader perspective on emerging threats.
+- [ ] **AI-Driven Insights** 🧠
+_Develop AI automation that analyzes detected vulnerabilities and provides admins with insights on discussions from platforms like Reddit and X, offering a broader perspective on emerging threats._
 
 ## Contributing
 
