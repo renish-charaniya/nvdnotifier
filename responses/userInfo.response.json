@@ -1,7 +1,7 @@
 {
-  "id": "U07RPMJ3L3Z",
-  "team_id": "T07RXK9R3QW",
-  "name": "crenish00",
+  "id": "",
+  "team_id": "",
+  "name": "",
   "deleted": false,
   "color": "e0a729",
   "real_name": "rocky",
@@ -31,7 +31,7 @@
     "image_192": "https://secure.gravatar.com/avatar/33b6b9a78fb6512fa8fe7dbfce50cf76.jpg?s=192&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0014-192.png",
     "image_512": "https://secure.gravatar.com/avatar/33b6b9a78fb6512fa8fe7dbfce50cf76.jpg?s=512&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0014-512.png",
     "status_text_canonical": "",
-    "team": "T07RXK9R3QW"
+    "team": ""
   },
   "is_admin": true,
   "is_owner": true,
