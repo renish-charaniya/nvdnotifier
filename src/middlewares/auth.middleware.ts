@@ -9,7 +9,9 @@ export const authMiddleware = (
   const token = req.headers["authorization"];
 
   if (!token || token !== config.AUTH_TOKEN) {
-    return res.status(403).send({ message: "Unauthorized" });
+    return res
+      .status(403)
+      .send({ message: "Forbidden: Everything is in control." });
   }
 
   next();
