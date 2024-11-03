@@ -4,16 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>NVD Slack Integration</title>
+    <title>NVD-notifier</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
         body {
             font-family: 'Inter', sans-serif;
-            overflow: hidden;
+            overflow: overlay;
         }
 
-        /* 3D Spaghetti Shower animation */
         .spaghetti-container {
             position: fixed;
             top: 0;
@@ -36,20 +35,11 @@
         }
 
         @keyframes spaghetti-fall {
-            0% {
-                transform: translateY(-100vh) rotateX(0deg) rotateY(0deg);
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(100vh) rotateX(360deg) rotateY(360deg);
-                opacity: 0;
-            }
+            0% { transform: translateY(-100vh) rotateX(0deg) rotateY(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            100% { transform: translateY(100vh) rotateX(360deg) rotateY(360deg); opacity: 0; }
         }
 
-        /* Thunder animation */
         .thunder {
             position: fixed;
             top: 0;
@@ -62,32 +52,35 @@
         }
 
         @keyframes flash-thunder {
-            0%, 100% {
-                background-color: rgba(255, 255, 255, 0.1);
-            }
-            50% {
-                background-color: rgba(255, 255, 255, 0.9);
-            }
+            0%, 100% { background-color: rgba(255, 255, 255, 0.1); }
+            50% { background-color: rgba(255, 255, 255, 0.9); }
         }
 
-        /* Modal content adjustments */
-        .modal {
-            position: relative;
-            z-index: 100;
+        .bulge { animation: bulge 0.8s ease-in-out infinite; }
+        @keyframes bulge { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+
+        /* New styles for buttons */
+        .button {
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-weight: 600;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+        .button:hover {
+            background-color: rgba(0, 0, 0, 0.1);
         }
 
-        /* Button animation */
-        .bulge {
-            animation: bulge 0.8s ease-in-out infinite;
+        /* Styles for mobile button toggle */
+        .mobile-buttons {
+            transition: max-height 0.3s ease, opacity 0.3s ease;
+            overflow: hidden;
+            max-height: 0;
+            opacity: 0;
         }
-
-        @keyframes bulge {
-            0%, 100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.1);
-            }
+        .mobile-buttons.show {
+            max-height: 200px; /* Adjust based on content */
+            opacity: 1;
         }
     </style>
     <script>
@@ -96,42 +89,33 @@
             const teamName = urlParams.get('team');
             const status = urlParams.get('status');
             const button = document.getElementById('connectButton');
+            const mobileButtonsContainer = document.getElementById('mobileButtons');
 
             if (status === 'success') {
                 button.textContent = `Connected to ${teamName}`;
                 button.classList.replace('bg-gradient-to-r', 'bg-green-500');
                 button.classList.replace('bulge', 'shadow-none');
-                button.href = "#";  // Disable the OAuth link
-
-                // Trigger Spaghetti Shower
+                button.href = "#";
                 triggerSpaghettiShower();
-
             } else if (status === 'failure') {
-                // Trigger Thunder Effect
                 triggerThunder();
             }
+
+            // Show/hide mobile buttons
+            const toggleMobileButtons = () => {
+                mobileButtonsContainer.classList.toggle('show');
+            }
+
+            document.getElementById('mobileToggle').addEventListener('click', toggleMobileButtons);
         });
 
         function triggerSpaghettiShower() {
             const container = document.createElement('div');
             container.classList.add('spaghetti-container');
             document.body.appendChild(container);
-
-            for (let i = 0; i < 100; i++) {
-                createSpaghetti(container);
-            }
-
-            // Continue creating spaghetti for 3 seconds
-            const interval = setInterval(() => {
-                createSpaghetti(container);
-            }, 50);
-
-            setTimeout(() => {
-                clearInterval(interval);
-                setTimeout(() => {
-                    container.remove();
-                }, 2000);
-            }, 3000);
+            for (let i = 0; i < 100; i++) createSpaghetti(container);
+            const interval = setInterval(() => createSpaghetti(container), 50);
+            setTimeout(() => { clearInterval(interval); setTimeout(() => container.remove(), 2000); }, 3000);
         }
 
         function createSpaghetti(container) {
@@ -141,52 +125,73 @@
             spaghetti.style.animationDelay = `${Math.random() * 2}s`;
             spaghetti.style.transform = `rotateX(${Math.random() * 360}deg) rotateY(${Math.random() * 360}deg)`;
             container.appendChild(spaghetti);
-
-            setTimeout(() => {
-                spaghetti.remove();
-            }, 2000);
+            setTimeout(() => spaghetti.remove(), 2000);
         }
 
         function triggerThunder() {
             const thunder = document.createElement('div');
             thunder.classList.add('thunder');
             document.body.appendChild(thunder);
-
-            setTimeout(() => {
-                thunder.remove();
-            }, 1000);
+            setTimeout(() => thunder.remove(), 1000);
         }
     </script>
 </head>
-<body class="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-600 to-teal-400 relative overflow-hidden">
+<body class="min-h-screen flex flex-col items-center bg-gradient-to-br from-indigo-600 to-teal-400 relative overflow-x-hidden">
+
+    <!-- Navigation Header -->
+    <header class="w-full px-4 py-3 bg-gray-800 text-white flex justify-between items-center fixed top-0 z-50 shadow-lg">
+        <div class="flex items-center space-x-2">
+            <img src="https://img.icons8.com/ios-filled/50/ffffff/slack-new.png" alt="NVD Notifier Icon" class="h-6">
+            <span class="text-lg font-bold hidden md:block">NVD Notifier</span>
+        </div>
+        <div class="flex items-center gap-2">
+            <button id="mobileToggle" class="md:hidden focus:outline-none">
+                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                </svg>
+            </button>
+            <!-- Large Screen Buttons -->
+            <div class="hidden md:flex space-x-2">
+                <a href="https://github.com/renish-charaniya/nvdnotifier/issues/new?title=Bug:" target="_blank" class="button bg-red-500 text-white">🐞 Report Issue</a>
+                <a href="https://github.com/renish-charaniya/nvdnotifier/issues/new?title=Feedback:" target="_blank" class="button bg-yellow-500 text-white">💬 Feedback</a>
+                <a href="https://github.com/renish-charaniya/nvdnotifier/issues/new?title=Feature%20Request:" target="_blank" class="button bg-green-500 text-white">🌟 Request Feature</a>
+            </div>
+        </div>
+    </header>
 
     <!-- Main container (Modal) -->
-    <div class="modal text-center max-w-2xl bg-white rounded-lg shadow-2xl p-10 space-y-8 transform transition duration-500 hover:scale-105 hover:shadow-3xl relative">
+    <main class="flex-grow flex items-center justify-center mt-16 sm:mt-20 md:mt-24 lg:mt-28 px-4">
+        <div class="modal max-w-md md:max-w-2xl bg-white rounded-lg shadow-2xl p-6 sm:p-10 space-y-6 md:space-y-8 text-center">
+            <h2 class="text-2xl md:text-4xl font-extrabold text-gray-800 tracking-tight leading-tight">Automate Vulnerability Detection with <span class="text-blue-600">Slack</span></h2>
+            <p class="text-sm md:text-lg text-gray-600 leading-relaxed">
+                Automate detection of vulnerabilities from the <a href="https://nvd.nist.gov/" class="text-blue-600" target="_blank" rel="noopener noreferrer">National Vulnerability Database (NVD)</a> and streamline communication within your IT team through Slack.This tool eliminates the need for manual vulnerability checks and forwards security patch details to co-admins for quick action.
+            </p>
+            <a id="connectButton" href="/api/slack/authorize" class="inline-block bg-gradient-to-r from-blue-500 via-teal-400 to-green-500 text-white text-lg md:text-xl font-semibold py-3 px-8 md:py-4 md:px-10 rounded-full shadow-lg bulge transform transition duration-300 ease-in-out relative z-20">
+                Connect NVD with your Slack
+            </a>
+            <div class="w-full border-t border-gray-200 mt-6 md:mt-8"></div>
+            <p class="text-xs md:text-sm text-gray-500 italic">Stay ahead of vulnerabilities and enhance your security workflow!</p>
+        </div>
+    </main>
 
-        <!-- Heading -->
-        <h1 class="text-4xl font-extrabold text-gray-800 tracking-tight leading-tight">
-            Automate Vulnerability Detection with <span class="text-blue-600">Slack</span>
-        </h1>
-
-        <!-- Subheading -->
-        <p class="text-lg text-gray-600 leading-relaxed">
-            Automate the detection of vulnerabilities from the <a href="https://nvd.nist.gov/" class="text-blue-600" target="_blank" rel="noopener noreferrer">National Vulnerability Database (NVD)</a> and streamline communication within your IT team through Slack. This tool eliminates the need for manual vulnerability checks and forwards security patch details to co-admins for quick action.
-        </p>
-
-        <!-- Eye-catching Button -->
-        <a id="connectButton" href="/api/slack/authorize" class="inline-block bg-gradient-to-r from-blue-500 via-teal-400 to-green-500 text-white text-xl font-semibold py-4 px-10 rounded-full shadow-lg bulge transform transition duration-300 ease-in-out relative z-20">
-            Connect NVD with your Slack
-        </a>
-
-        <!-- Optional Decorative Line -->
-        <div class="w-full border-t border-gray-200 mt-8"></div>
-
-        <!-- Additional Information (Optional) -->
-        <p class="text-gray-500 italic">
-            Stay ahead of vulnerabilities and enhance your security workflow!
-        </p>
-
+    <!-- Mobile Buttons -->
+    <div id="mobileButtons" class="mobile-buttons">
+        <div class="flex flex-col items-center space-y-2 p-4">
+            <a href="https://github.com/renish-charaniya/nvdnotifier/issues/new?title=Bug:" target="_blank" class="button bg-red-500 text-white">🐞 Report Issue</a>
+            <a href="https://github.com/renish-charaniya/nvdnotifier/issues/new?title=Feedback:" target="_blank" class="button bg-yellow-500 text-white">💬 Feedback</a>
+            <a href="https://github.com/renish-charaniya/nvdnotifier/issues/new?title=Feature%20Request:" target="_blank" class="button bg-green-500 text-white">🌟 Request Feature</a>
+        </div>
     </div>
 
+    <!-- Footer -->
+    <footer class="w-full py-4 bg-gray-800 text-white text-center mt-8">
+        <div class="container mx-auto flex flex-col md:flex-row justify-between items-center text-sm md:text-base px-4">
+            <p>&copy; 2024 NVD Notifier. All rights reserved.</p>
+            <div class="mt-2 md:mt-0">
+                <!-- Service Status Badge from Better Uptime -->
+                <iframe src="https://nvd.betteruptime.com/badge?theme=dark" width="250" height="30" frameborder="0" scrolling="no"></iframe>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>
