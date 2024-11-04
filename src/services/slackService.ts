@@ -244,7 +244,7 @@ export class SlackService {
     vulnerability: any
   ): (Block | KnownBlock)[] {
     const description = vulnerability.cve.descriptions
-      .filter((desc: { lang: string }) => desc.lang === "en")
+      .filter((desc: { lang: string }) => desc.lang === "en") // !CVE API doesn't have the language filter.
       .map((desc: { value: string }) => desc.value)
       .join("\n");
 
@@ -254,14 +254,7 @@ export class SlackService {
         block_id: "vulnerability_description",
         text: {
           type: "mrkdwn",
-          text: `:rotating_light: *New Vulnerability Found* :rotating_light:\n*CVE_ID*: ${
-            vulnerability.cve.id
-          }\n*Vulnerability*: ${vulnerability.cve.descriptions.map(
-            (desc: { lang: string; value: string }) => {
-              // !CVE API doesn't have the language filter.
-              if (desc.lang === "en") return description + desc.value;
-            }
-          )}`,
+          text: `:rotating_light: *New Vulnerability Found* :rotating_light:\n*CVE_ID*: ${vulnerability.cve.id}\n*Vulnerability*: ${description}`,
         },
       },
       {
