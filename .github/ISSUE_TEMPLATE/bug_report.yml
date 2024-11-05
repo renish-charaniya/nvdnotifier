@@ -1,6 +1,7 @@
-name: Report a Bug 🐛
+name: 🐞 Report a Bug
 description: File a bug report
-labels: ['bug']
+labels: ["bug"]
+title: "🐞[Bug]: "
 body:
   - type: markdown
     attributes:
@@ -13,7 +14,7 @@ body:
     id: requirements
     attributes:
       label: Requirements
-      description: 'Please make sure you have checked all of the following:'
+      description: "Please make sure you have checked all of the following:"
       options:
         - label: I have verified there are no duplicate active or recent bugs, questions, or requests
           required: true
