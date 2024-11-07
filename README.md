@@ -1,8 +1,6 @@
 # NVD Notifier [![Better Stack Badge](https://uptime.betterstack.com/status-badges/v1/monitor/1lij4.svg)](https://renish-charaniya.github.io/nvdnotifier/) [![Better Stack Badge](https://img.shields.io/badge/uptime-AVAILABILITY.STATISTICS-purple)](https://renish-charaniya.github.io/nvdnotifier/)
 
 
-
-
 Automate the detection of vulnerabilities from the [National Vulnerability Database (NVD)](https://nvd.nist.gov) and streamline communication within your IT team through Slack. This tool eliminates the need for manual vulnerability checks and forwards security patch details to co-admins for quick action.
 
   <div align="center">
@@ -16,6 +14,10 @@ Automate the detection of vulnerabilities from the [National Vulnerability Datab
       </a>
  </div>
 
+
+
+**IT Admins!  Security Breach Looming? ⏰  Don't Wait!**
+Fix it before attackers do! Share this critical tool (https://nvdnotifier.vercel.app) with your team and join the discussion <a href="https://github.com/renish-charaniya/nvdnotifier/issues">over here</a>.
 
 
 ## Problem Statement
