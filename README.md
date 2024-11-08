@@ -17,7 +17,7 @@ Automate the detection of vulnerabilities from the [National Vulnerability Datab
 
 
 **IT Admins!  Security Breach Looming? ⏰  Don't Wait!**
-Fix it before attackers do! Share this critical tool (https://nvdnotifier.vercel.app) with your team and join the discussion <a href="https://github.com/renish-charaniya/nvdnotifier/issues">over here</a>.
+Fix it before attackers do! Share this critical tool (https://nvdnotifier.vercel.app) with your team and join the discussion <a href="https://github.com/renish-charaniya/nvdnotifier/issues/new/choose">over here</a>.
 
 
 ## Problem Statement
