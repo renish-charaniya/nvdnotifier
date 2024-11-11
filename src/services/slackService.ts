@@ -9,6 +9,7 @@ import {
 import axios from "axios";
 import { config } from "../config/config";
 import { SlackTokenService } from "./slackTokenService";
+import { decrypt, encrypt, isEncrypted } from "../utils/helpers";
 
 @singleton()
 export class SlackService {
@@ -57,8 +58,8 @@ export class SlackService {
 
       if (response.data.ok) {
         const teamId = response.data.team.id;
-        const newAccessToken = response.data.access_token;
-        const newRefreshToken = response.data.refresh_token;
+        const newAccessToken = encrypt(response.data.access_token);
+        const newRefreshToken = encrypt(response.data.refresh_token);
 
         // Update the WebClient with the new access token
         this.slackClient = new WebClient(response.data.access_token);
@@ -83,6 +84,11 @@ export class SlackService {
     accessToken: string,
     refreshToken: string
   ): Promise<void> {
+    accessToken =
+      isEncrypted(accessToken) === true ? decrypt(accessToken) : accessToken;
+    refreshToken =
+      isEncrypted(refreshToken) === true ? decrypt(refreshToken) : refreshToken;
+
     const isValid = await this.isAccessTokenValid(accessToken);
     if (!isValid) {
       console.log("Access token expired, refreshing...");
@@ -127,6 +133,8 @@ export class SlackService {
         is_owner: boolean;
       };
 
+      // FIXME add differenciation for non admins & throw error if user is deleted
+      // TODO check what if user onboards and then account is deleted ?
       if (user.deleted || !user.is_admin || !user.is_owner) {
         // throw new Error(`User ${adminId} is not an active admin or owner.`);
         // return false;

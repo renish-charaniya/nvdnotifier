@@ -1,4 +1,5 @@
 import SlackToken from "../models/slackToken.model";
+import { decrypt } from "../utils/helpers";
 
 export class SlackTokenService {
   // Method to retrieve the Slack token based on team ID or any identifier
@@ -23,9 +24,9 @@ export class SlackTokenService {
       }
 
       return {
-        accessToken: tokenRecord.access_token,
+        accessToken: decrypt(tokenRecord.access_token),
         adminId: tokenRecord.authed_user.id,
-        refreshToken: tokenRecord.refresh_token,
+        refreshToken: decrypt(tokenRecord.refresh_token),
       };
     } catch (error) {
       console.error("Error while retrieving Slack token:", error);

@@ -9,6 +9,7 @@ import {
 } from "../types/oauthToken.type";
 import { SlackTokenService } from "../services/slackTokenService";
 import { connectDB } from "../db/connection";
+import { encrypt } from "../utils/helpers";
 
 export class SlackController {
   private slackTokenService: SlackTokenService;
@@ -104,6 +105,7 @@ export class SlackController {
         (<SlackTokenResponseType>slackTokenData).authed_user.id
       );
 
+      // TODO no effect of the code below, make the required changes.
       if (!isValid) {
         return res
           .status(403)
@@ -205,6 +207,8 @@ export class SlackController {
   // Save the Slack token to the database
   private async saveSlackToken(slackTokenData: any) {
     delete slackTokenData["_id"]; // Remove _id if present
+    slackTokenData["access_token"] = encrypt(slackTokenData["access_token"]);
+    slackTokenData["refresh_token"] = encrypt(slackTokenData["refresh_token"]);
 
     return await SlackToken.updateOne(
       { "team.id": slackTokenData.team.id },
