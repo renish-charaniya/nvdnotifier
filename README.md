@@ -123,7 +123,7 @@ DB_NAME=testnvdnotifier
 ```
 
 ### Future Enhancements 🗺️🔭
-- [ ] **Secure OAuth Token Storage** 🔐
+- [x] **Secure OAuth Token Storage** 🔐
 _Implement a secure method to store and manage OAuth tokens for enhanced data protection._
 
 - [ ] **Scalable Notification Queue** 🚀
